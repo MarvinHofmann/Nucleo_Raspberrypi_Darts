@@ -1,4 +1,4 @@
-const ws = new WebSocket('ws://raspberrypi:8080');
+const ws = new WebSocket('ws://192.168.0.46:8080');
 
 let zaehler = 0;
 let zwischenSumme = 0;
