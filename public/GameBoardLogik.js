@@ -15,11 +15,11 @@ ws.addEventListener('message', function (event){
     
     switch (data.type) {
       case 'numberErgebnis':
-        zwischenSumme += data;
+        zwischenSumme += data.value;
         break;
   
       case 'stringErgebnis':
-        handleStringErgebnise(data);
+        handleStringErgebnise(data.value);
         break;
 
     default:
@@ -36,15 +36,15 @@ ws.addEventListener('message', function (event){
 
   function handleStringErgebnise(data){
       switch(zaehler){
-        case 1: document.getElementById("ergWurf1").innerText = data;
+        case 1: document.getElementById("ergWurf1").innerText = String(data);
                 document.getElementById("ergWurf2").innerText = String('/');
                 document.getElementById("ergWurf3").innerText = String('/');
             break;
-        case 2: document.getElementById("ergWurf2").innerText = data;
+        case 2: document.getElementById("ergWurf2").innerText = String(data);
                 document.getElementById("ergWurf3").innerText = String('/');
             break;
         
-        case 3: document.getElementById("ergWurf3").innerText = data;
+        case 3: document.getElementById("ergWurf3").innerText = String(data);
             break;
                      
       } 
