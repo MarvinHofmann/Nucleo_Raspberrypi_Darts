@@ -13,12 +13,19 @@ ws.addEventListener('message', function (event){
     
     zaehler++;
     
+    if(zaehler == 3){
+        document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
+        zaehler = 0;
+        zwischenSumme = 0;
+    }
+
     switch (data.type) {
       case 'numberErgebnis':
         zwischenSumme += data.value;
         break;
   
       case 'stringErgebnis':
+        
         handleStringErgebnise(data.value);
         break;
 
@@ -26,11 +33,6 @@ ws.addEventListener('message', function (event){
         // Unknown websocket message type
     }
 
-    if(zaehler == 3){
-        document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
-        zaehler = 0;
-        zwischenSumme = 0;
-    }
     
   });
 
