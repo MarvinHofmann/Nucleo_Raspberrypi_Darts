@@ -1,18 +1,18 @@
-//Init WebsockeServer
+//Init Websocket Server
 const WebSocket = require("ws")
-const wss = new WebSocket.Server({ port: 8080 }); // abgespilteter WS Server auf anderem Port
+const wss = new WebSocket.Server({ port: 8040 }); // abgespilteter WS Server auf anderem Port
 
 //Init Express Server
-const express = require('express')
-const app = express()
-//Port
-const port = 3443
+const express = require('express');
+const app = express();
+//Init Port
+const port = 8000;
 //Init BodyParser
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
-//Greife immer auf public zu 
+
 app.use(express.static('public'));
-//Höre auf Port
+//Höre auf Port:
 app.listen(port, () => {
   console.log(`App listening at http://raspberrypi:${port}`) // Publisher Server auf Port 3443
 });

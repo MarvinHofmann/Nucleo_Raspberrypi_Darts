@@ -4,7 +4,7 @@ let zaehler = 0;
 let zwischenSumme = 0;
 let dartRest = 501;
 
-ws.addEventListener("open", () => {
+ws.addEventListener('open', () => {
     console.log("Client connected with server!")
 });
 
