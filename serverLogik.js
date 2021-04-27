@@ -11,7 +11,7 @@ const port = 3443;
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-app.use(express.static('./public/GameBoard.hmtl'));
+app.use(express.static('public/GameBoard.hmtl'));
 //Höre auf Port:
 app.listen(port, () => {
   console.log(`App listening at http://raspberrypi:${port}`) // Publisher Server auf Port 3443
