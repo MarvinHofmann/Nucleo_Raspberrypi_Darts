@@ -1,12 +1,12 @@
 //Init Websocket Server
 const WebSocket = require("ws")
-const wss = new WebSocket.Server({ port: 8040 }); // abgespilteter WS Server auf anderem Port
+const wss = new WebSocket.Server({ port: 8080 }); // abgespilteter WS Server auf anderem Port
 
 //Init Express Server
 const express = require('express');
 const app = express();
 //Init Port
-const port = 8000;
+const port = 3443;
 //Init BodyParser
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
