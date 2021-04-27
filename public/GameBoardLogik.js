@@ -27,7 +27,7 @@ ws.addEventListener('message', function (event){
     }
 
     if(zaehler == 3){
-        document.getElementById("!!Nichtas!!").innerText = dartRest - zwischenSumme ;
+        document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
         zaehler = 0;
         zwischenSumme = 0;
     }
