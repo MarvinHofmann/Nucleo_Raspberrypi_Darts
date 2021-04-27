@@ -4,16 +4,16 @@ const wss = new WebSocket.Server({ port: 8080 }); // abgespilteter WS Server auf
 
 //Init Express Server
 const express = require('express')
-const server = express()
+const app = express()
 //Port
 const port = 3443
 //Init BodyParser
 let bodyParser = require('body-parser');
-server.use(bodyParser.json());
+app.use(bodyParser.json());
 //Greife immer auf public zu 
-server.use(express.static('public'));
+app.use(express.static('public'));
 //Höre auf Port
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`App listening at http://raspberrypi:${port}`) // Publisher Server auf Port 3443
 });
 
@@ -24,12 +24,12 @@ let multiplPlayerOne = 0;
 let ergebnisPlayerOne = 0;
 let stringErgebnisPlayerOne;
 
-server.get('/' , function ( request, response){
+app.get('/' , function ( request, response){
     console.log("Eingehende get request");
     response.sendStatus(200);
 });
 
-server.post('/', function (req, res) {
+app.post('/', function (req, res) {
     incomingNumberPlayerOne = req.body.numberPL1;
     multiplPlayerOne = req.body.mulPL1;
     ergebnisPlayerOne = multiplPlayerOne * incomingNumberPlayerOne;
