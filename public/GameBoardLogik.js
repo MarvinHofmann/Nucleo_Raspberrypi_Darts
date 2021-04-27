@@ -6,8 +6,7 @@ let dartRest = 501;
 
 ws.addEventListener("open", () => {
     console.log("Client connected with server!")
-
-})
+});
 
 ws.addEventListener('message', function (event){
     const data = JSON.parse(event.data);

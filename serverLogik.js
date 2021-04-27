@@ -56,7 +56,9 @@ wss.on("connection", ws => {
 
 // diese funktion schickt das übergebene Objekt json an alle verbundenen Clients
 function broadcast(numberErgebnis, stringErgebnis) {
+  console.log("bin in Broadcast");
     wss.clients.forEach(function each(client) {
+      console.log("bc inner");
       if (client.readyState === WebSocket.OPEN) {
         console.log("sende");
         client.send(JSON.stringify({ type: 'numberErgebnis', value: numberErgebnis }));
