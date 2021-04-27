@@ -7,15 +7,15 @@ const express = require('express')
 const server = express()
 //Port
 const port = 3443
+//Init BodyParser
+let bodyParser = require('body-parser');
+server.use(bodyParser.json());
 //Greife immer auf public zu 
 server.use(express.static('public'));
 //Höre auf Port
 server.listen(port, () => {
   console.log(`App listening at http://raspberrypi:${port}`) // Publisher Server auf Port 3443
 });
-//Init BodyParser
-let bodyParser = require('body-parser');
-server.use(bodyParser.json());
 
 
 //Globale Variablen
