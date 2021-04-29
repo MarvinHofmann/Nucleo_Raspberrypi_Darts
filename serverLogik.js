@@ -29,6 +29,13 @@ app.get('/' , function ( request, response){
     response.sendStatus(200);
 });
 
+app.get('/hallo', function (req, res) {
+  console.log("Exit Request")
+  console.log(req.body.code):
+  res.send("Kam an Ergebnis: ");
+});
+
+
 app.post('/', function (req, res) {
     incomingNumberPlayerOne = req.body.numberPL1;
     multiplPlayerOne = req.body.mulPL1;
