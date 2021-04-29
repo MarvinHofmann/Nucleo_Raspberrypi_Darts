@@ -34,7 +34,7 @@ ws.addEventListener('message', function (event){
   function handleStringErgebnise(data){
       switch(zaehler){
         case 2: document.getElementById("ergWurf1").innerText = String(data);
-                document.getElementById("ergWurf2").innerText = String('/');
+                document.getElementById("ergWurf2").innerText = String('/'); //Setzte felder zurück
                 document.getElementById("ergWurf3").innerText = String('/');
             break;
         case 4: document.getElementById("ergWurf2").innerText = String(data);
