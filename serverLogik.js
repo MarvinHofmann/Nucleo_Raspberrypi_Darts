@@ -29,7 +29,7 @@ app.get('/' , function ( request, response){
     response.sendStatus(200);
 });
 
-app.get('/hallo', function (req, res) {
+app.post('/hallo', function (req, res) {
   console.log("Exit Request")
   console.log(req.body.code);
   res.send("Kam an Ergebnis: ");
