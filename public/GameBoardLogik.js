@@ -13,8 +13,8 @@ ws.addEventListener('message', function (event){
     console.log('Zaheler Vorher ' + zaehler);
     zaehler++;
     console.log('Zaheler Nach Inc ' + zaehler);
-    if(zaehler === 3){
-        console.log("Zaheler = 3")
+    if(zaehler === 6){
+        console.log("Zaheler = 6")
         document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
         zaehler = 0;
         zwischenSumme = 0;
