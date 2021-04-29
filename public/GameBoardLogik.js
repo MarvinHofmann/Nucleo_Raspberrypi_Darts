@@ -19,10 +19,12 @@ ws.addEventListener('message', function (event){
 
     switch (data.type) {
       case 'numberErgebnis':
+        console.log("bin hier zaehler: " + zaehler);
         zwischenSumme += data.value;
         break;
   
       case 'stringErgebnis': 
+        console.log("bin hier zaehler: " + zaehler);
         handleStringErgebnise(data.value);
         break;
 
