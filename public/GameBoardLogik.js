@@ -60,8 +60,8 @@ ws.addEventListener('message', function (event){
           handleStringErgebnise(data.value);
           break;
     }
-
-    document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
+    dartRest -= zwischenSumme;
+    document.getElementById("restWert").innerText = dartRest;
 
     zaehler = 0;
     console.log('Zaehler' + zaehler);
