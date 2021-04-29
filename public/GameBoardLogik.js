@@ -1,5 +1,6 @@
 const ws = new WebSocket('ws://192.168.0.46:8080');
 
+let averageZaehler = 0;
 let zaehler = 0;
 let zwischenSumme = 0;
 let dartRest = 501;
@@ -19,12 +20,10 @@ ws.addEventListener('message', function (event){
 
     switch (data.type) {
       case 'numberErgebnis':
-        console.log("bin hier zaehler: " + zaehler);
         zwischenSumme += data.value;
         break;
   
       case 'stringErgebnis': 
-        console.log("bin hier zaehler: " + zaehler);
         handleStringErgebnise(data.value);
         break;
 
@@ -50,7 +49,7 @@ ws.addEventListener('message', function (event){
   }
 
   function handleZaehlerSechs(data, type){
-    console.log("Zaheler = 6")
+    //console.log("Zaheler = 6")
       
     switch (type) {
         case 'numberErgebnis':
@@ -65,8 +64,16 @@ ws.addEventListener('message', function (event){
     document.getElementById("restWert").innerText = dartRest;
 
     zaehler = 0;
-    console.log('Zaehler' + zaehler);
+    //console.log('Zaehler' + zaehler);
     
     zwischenSumme = 0;
-    console.log('Zwischensumme' + zwischenSumme)
+    //console.log('Zwischensumme' + zwischenSumme)
+
+    averageZaehler++;
+
+    document.getElementById("average").innerText = getAverage(averageZaehler);
+  }
+
+  function getAverage(count){
+    return ((501 - dartRest) / count)
   }
