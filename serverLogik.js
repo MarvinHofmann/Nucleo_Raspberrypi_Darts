@@ -31,7 +31,7 @@ app.get('/' , function ( request, response){
 
 app.get('/hallo', function (req, res) {
   console.log("Exit Request")
-  console.log(req.body.code):
+  console.log(req.body.code);
   res.send("Kam an Ergebnis: ");
 });
 
