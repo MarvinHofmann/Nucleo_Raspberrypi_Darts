@@ -31,7 +31,9 @@ app.get('/' , function ( request, response){
 
 app.post('/hallo', function (req, res) {
   console.log("Exit Request")
-  console.log(req.body.code);
+  //console.log(req.body.code);
+  broadcast(0,"2");
+  console.log('ende');
   res.send("Kam an Ergebnis: ");
 });
 
@@ -63,11 +65,11 @@ wss.on("connection", ws => {
 
 // diese funktion schickt das übergebene Objekt json an alle verbundenen Clients
 function broadcast(numberErgebnis, stringErgebnis) {
-  
+  console.log("bin hier2");
     wss.clients.forEach(function each(client) {
-  
+      console.log("bin hier1");
       if (client.readyState === WebSocket.OPEN) {
-  
+        console.log("bin hier");
         client.send(JSON.stringify({ type: 'numberErgebnis', value: numberErgebnis }));
         client.send(JSON.stringify({ type: 'stringErgebnis', value: stringErgebnis }));
       }
