@@ -10,14 +10,28 @@ ws.addEventListener('open', () => {
 
 ws.addEventListener('message', function (event){
     const data = JSON.parse(event.data);
-    console.log('Zaheler Vorher ' + zaehler);
+    //console.log('Zaheler Vorher ' + zaehler);
     zaehler++;
     console.log('Zaheler Nach Inc ' + zaehler);
     if(zaehler === 6){
         console.log("Zaheler = 6")
         document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
+        
+        switch (data.type) {
+            case 'numberErgebnis':
+              zwischenSumme += data.value;
+              break;
+        
+            case 'stringErgebnis': 
+              handleStringErgebnise(data.value);
+              break;
+        }
+
         zaehler = 0;
+        console.log('Zaehler' + zaehler);
+        
         zwischenSumme = 0;
+        console.log('Zwischensumme' + zwischenSumme)
     }
 
     switch (data.type) {
@@ -31,9 +45,7 @@ ws.addEventListener('message', function (event){
 
     default:
         // Unknown websocket message type
-    }
-
-    
+    }   
   });
 
   function handleStringErgebnise(data){
