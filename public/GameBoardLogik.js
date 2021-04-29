@@ -14,7 +14,7 @@ ws.addEventListener('message', function (event){
     zaehler++;
     
     if(zaehler === 6){
-        handleZaehlerSechs(data);
+        handleZaehlerSechs(data, data.type);
     }
 
     switch (data.type) {
@@ -47,11 +47,11 @@ ws.addEventListener('message', function (event){
       } 
   }
 
-  function handleZaehlerSechs(){
+  function handleZaehlerSechs(data, type){
     console.log("Zaheler = 6")
     document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
     
-    switch (data.type) {
+    switch (type) {
         case 'numberErgebnis':
           zwischenSumme += data.value;
           break;
