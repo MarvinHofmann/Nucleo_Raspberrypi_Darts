@@ -29,10 +29,11 @@ app.get('/' , function ( request, response){
     response.sendStatus(200);
 });
 
+//Exit Post request
 app.post('/exit', function (req, res) {
   console.log("Exit Request")
   console.log(req.body.code);
-  broadcast(req.body.code,"none");
+  broadcast(req.body.code,"-");
   res.send("Exit erhalten");
 });
 
