@@ -10,28 +10,11 @@ ws.addEventListener('open', () => {
 
 ws.addEventListener('message', function (event){
     const data = JSON.parse(event.data);
-    //console.log('Zaheler Vorher ' + zaehler);
+    
     zaehler++;
-    console.log('Zaheler Nach Inc ' + zaehler);
+    
     if(zaehler === 6){
-        console.log("Zaheler = 6")
-        document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
-        
-        switch (data.type) {
-            case 'numberErgebnis':
-              zwischenSumme += data.value;
-              break;
-        
-            case 'stringErgebnis': 
-              handleStringErgebnise(data.value);
-              break;
-        }
-
-        zaehler = 0;
-        console.log('Zaehler' + zaehler);
-        
-        zwischenSumme = 0;
-        console.log('Zwischensumme' + zwischenSumme)
+        handleZaehlerSechs;
     }
 
     switch (data.type) {
@@ -55,11 +38,32 @@ ws.addEventListener('message', function (event){
                 //document.getElementById("ergWurf3").innerText = String('/');
             break;
         case 4: document.getElementById("ergWurf2").innerText = String(data);
-                //document.getElementById("ergWurf3").innerText = String('/');
+                
             break;
         
         case 6: document.getElementById("ergWurf3").innerText = String(data);
             break;
                      
       } 
+  }
+
+  function handleZaehlerSechs(){
+    console.log("Zaheler = 6")
+    document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
+    
+    switch (data.type) {
+        case 'numberErgebnis':
+          zwischenSumme += data.value;
+          break;
+    
+        case 'stringErgebnis': 
+          handleStringErgebnise(data.value);
+          break;
+    }
+
+    zaehler = 0;
+    console.log('Zaehler' + zaehler);
+    
+    zwischenSumme = 0;
+    console.log('Zwischensumme' + zwischenSumme)
   }
