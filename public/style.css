@@ -3,3 +3,56 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+#Fenster{
+    position: relative;
+    background-color: grey;
+    height: 80vh;
+    width: 800px;
+    top: 25%;
+    margin: 0 auto;
+}
+#Spieler1{
+    background-color: rgb(179, 45, 45);
+    float: left;    
+    width: 400px;
+    height: 80vh;
+}
+#Spieler2{
+    background-color: rgb(179, 45, 45);
+    float: right;
+    width: 400px;
+    height: 80vh;
+}
+
+.score{
+    background-color: rgb(179, 45, 45);
+    width: 100%;
+    height: 33%;
+    border: 2px solid black;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+.score1{
+    background-color: rgb(8, 8, 116);
+    width: 100%;
+    height: 33%;
+    border: 2px solid black;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+.Tripple{
+    background-color: rgb(169, 184, 41);
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    border: 1px solid black;
+}
+.tripplein{
+    border: 1px solid black;   
+}
