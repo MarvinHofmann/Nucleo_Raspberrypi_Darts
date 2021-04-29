@@ -49,7 +49,7 @@ ws.addEventListener('message', function (event){
 
   function handleZaehlerSechs(data, type){
     console.log("Zaheler = 6")
-    document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
+    
     
     switch (type) {
         case 'numberErgebnis':
@@ -60,6 +60,8 @@ ws.addEventListener('message', function (event){
           handleStringErgebnise(data.value);
           break;
     }
+
+    document.getElementById("restWert").innerText = dartRest - zwischenSumme ;
 
     zaehler = 0;
     console.log('Zaehler' + zaehler);
