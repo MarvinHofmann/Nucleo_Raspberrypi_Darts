@@ -10,7 +10,7 @@ const port = 3443;
 //Init BodyParser
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
+//Suche in Ordner Public nach index.html und starte
 app.use(express.static('public'));
 //Höre auf Port:
 app.listen(port, () => {
@@ -56,11 +56,11 @@ wss.on("connection", ws => {
 
 // diese funktion schickt das übergebene Objekt json an alle verbundenen Clients
 function broadcast(numberErgebnis, stringErgebnis) {
-  console.log("bin in Broadcast");
+  
     wss.clients.forEach(function each(client) {
-      console.log("bc inner");
+  
       if (client.readyState === WebSocket.OPEN) {
-        console.log("sende");
+  
         client.send(JSON.stringify({ type: 'numberErgebnis', value: numberErgebnis }));
         client.send(JSON.stringify({ type: 'stringErgebnis', value: stringErgebnis }));
       }
