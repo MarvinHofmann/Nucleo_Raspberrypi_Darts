@@ -14,7 +14,7 @@ ws.addEventListener('message', function (event){
     zaehler++;
     
     if(zaehler === 6){
-        handleZaehlerSechs();
+        handleZaehlerSechs(data);
     }
 
     switch (data.type) {
