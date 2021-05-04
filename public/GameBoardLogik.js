@@ -24,6 +24,7 @@ ws.addEventListener('message', function (event){
         break;
   
       case 'stringErgebnis': 
+        checkIfWon(data.value);
         handleStringErgebnise(data.value);
         break;
 
@@ -57,6 +58,7 @@ ws.addEventListener('message', function (event){
           break;
     
         case 'stringErgebnis': 
+          checkIfWon(data.value);
           handleStringErgebnise(data.value);
           break;
     }
