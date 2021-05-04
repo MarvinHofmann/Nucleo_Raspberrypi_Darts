@@ -80,9 +80,9 @@ ws.addEventListener('message', function (event){
     return ((501 - dartRest) / count)
   }
 
-  function checkIfWon(uebergebenerString,wurf){
+  function checkIfWon(uebergebenerString){
     split = Array.from(uebergebenerString);
-    if(split[0] == 'D' && dartRest <= 0){
+    if(split[0] == 'D' && dartRest - zwischenSumme == 0){
       console.log('Gewonnen');
     }else{
       dartRest+=zwischenSumme;
