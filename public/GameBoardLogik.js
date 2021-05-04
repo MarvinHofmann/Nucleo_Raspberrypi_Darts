@@ -82,7 +82,7 @@ ws.addEventListener('message', function (event){
 
   function checkIfWon(uebergebenerString,wurf){
     split = Array.from(uebergebenerString);
-    if(split[0] == D && dartRest <= 0){
+    if(split[0] == 'D' && dartRest <= 0){
       console.log('Gewonnen');
     }else{
       dartRest+=zwischenSumme;
