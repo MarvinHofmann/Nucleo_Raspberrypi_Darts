@@ -11,6 +11,7 @@
     width: 800px;
     top: 25%;
     margin: 0 auto;
+    
 }
 #Spieler1{
     background-color: rgb(179, 45, 45);
@@ -36,15 +37,16 @@
 }
 
 .score1{
-    background-color: rgb(8, 8, 116);
+    background-color: rgb(22, 22, 170);
     width: 100%;
-    height: 33.333333%;
+    height: 25%;
     border: 2px solid black;
     display: grid;
     align-content: center;
     justify-content: center;
 }
 .Tripple{
+    width: 402px;
     background-color: rgb(179, 45, 45);
     display: grid;
     grid-template-columns: 33.33% 33.33% 33.33%;
@@ -55,6 +57,26 @@
     height: 25%;
 }
 .tripplein{
+    display: grid;
+    align-items: center;
+    height: 20vh;
+    border: 1px solid black;   
+    border-top: 0px;
+}
+
+.Tripple1{
+    width: 402px;
+    background-color: rgb(22, 22, 170);
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    border: 1px solid black;
+    height: 25%;
+}
+.tripplein1{
+    
     display: grid;
     align-items: center;
     height: 20vh;
