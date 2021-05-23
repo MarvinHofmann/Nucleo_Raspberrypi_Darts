@@ -4,15 +4,17 @@ const ws = new WebSocket("ws://192.168.0.46:8080");
 //Globale Variablen der Spiler anlegen und initialisieren
 
 let averageZaehler = 0;
-let zaehler = 0;
+
 let zwischenSumme = 0;
 let dartRest = 501;
 
 let averageZaehlerPL2 = 0;
-//let zaehlerPL2 = 0;
 let zwischenSummePL2 = 0;
 let dartRestPL2 = 501;
 
+
+let zaehler = 0;
+let spielVorbei = false;
 let MasterHandler = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
 let MasterhanlderTwo = false;
 //Eine Funktion die in der Konsole des Browserd die Geglückte Verbindung zum Server ausgibt
@@ -60,6 +62,8 @@ ws.addEventListener("message", function (event) {
       case "stringErgebnis2":
         if (!checkIfWon(data.value,2)) {
           handleStringErgebnise(data.value, "PL2");
+        }else{
+          spielVorbei = true;
         }
         break;
     }
@@ -76,6 +80,8 @@ function handleZaehlerSechs(data, type, player) {
       case "stringErgebnis1":
         if (!checkIfWon(data.value,1)) {
           handleStringErgebnise(data.value, "PL1");
+        }else{
+          spielVorbei = true;
         }
         break;
     }
@@ -85,7 +91,7 @@ function handleZaehlerSechs(data, type, player) {
     averageZaehler++;
     document.getElementById("restWertPL1").innerText = dartRest;
     document.getElementById("averagePL1").innerText = getAverage(averageZaehler);
-    if (!checkIfWon(data.value,1)) {
+    if (spielVorbei == false) {
       MasterHandler = false;
       MasterhanlderTwo = true;  
     }
@@ -108,7 +114,7 @@ function handleZaehlerSechs(data, type, player) {
     document.getElementById("restWertPL2").innerText = dartRestPL2;
     document.getElementById("averagePL2").innerText =
     getAveragePL2(averageZaehlerPL2);
-    if (!checkIfWon(data.value,2)) {
+    if (spielVorbei == false) {
       MasterHandler = true;
       MasterhanlderTwo = false;  
     }
