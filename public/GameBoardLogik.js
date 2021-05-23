@@ -15,8 +15,8 @@ let dartRestPL2 = 501;
 
 let zaehler = 0;
 let spielVorbei = false;
-let MasterHandler = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
-let MasterhandlerTwo = false;
+let zugSpieler1 = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
+let zugSpieler2 = false;
 //Eine Funktion die in der Konsole des Browserd die Geglückte Verbindung zum Server ausgibt
 ws.addEventListener("open", () => {
   console.log("Client connected with server!");
@@ -24,10 +24,10 @@ ws.addEventListener("open", () => {
 
 //Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
 ws.addEventListener("message", function (event) {
-  if (MasterHandler) {
-    console.log("MasterHanlder" + MasterHandler);
-    console.log("MasterHanlder2" + MasterhandlerTwo);
-    MasterhandlerTwo = false;
+  if (zugSpieler1) {
+    console.log("MasterHanlder" + zugSpieler1);
+    console.log("MasterHanlder2" + zugSpieler2);
+    zugSpieler2 = false;
     console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
    // console.log(data);
@@ -46,15 +46,15 @@ ws.addEventListener("message", function (event) {
         }else{
           console.log("Setze false");
           spielVorbei = true;
-          MasterhandlerTwo = false;
+          zugSpieler2 = false;
           MasterHanlder = false;
         }
         break;
     }
-  } else if (MasterhandlerTwo) {
-    console.log("MasterHanlder" + MasterHandler);
-    console.log("MasterHanlder2" + MasterhandlerTwo);
-    Masterhandler = false;
+  } else if (zugSpieler2) {
+    console.log("MasterHanlder" + zugSpieler1);
+    console.log("MasterHanlder2" + zugSpieler2);
+    zugSpieler1 = false;
     console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
    // console.log(data);
@@ -74,8 +74,8 @@ ws.addEventListener("message", function (event) {
         }else{
           console.log("Setze false");
           spielVorbei = true;
-          MasterhandlerTwo = false;
-          MasterHandler = false;
+          zugSpieler2 = false;
+          zugSpieler1 = false;
         }
         break;
     }
@@ -104,8 +104,8 @@ function handleZaehlerSechs(data, type, player) {
     document.getElementById("restWertPL1").innerText = dartRest;
     document.getElementById("averagePL1").innerText = getAverage(averageZaehler);
     if (spielVorbei === false) {
-      MasterHandler = false;
-      MasterhandlerTwo = true;  
+      zugSpieler1 = false;
+      zugSpieler2 = true;  
     }
   }else {
     console.log("Zaheler = 6 PL2");
@@ -129,8 +129,8 @@ function handleZaehlerSechs(data, type, player) {
     document.getElementById("averagePL2").innerText =
     getAveragePL2(averageZaehlerPL2);
     if (spielVorbei === false) {
-      MasterHandler = true;
-      MasterhandlerTwo = false;  
+      zugSpieler1 = true;
+      zugSpieler2 = false;  
     }
   }
 }
@@ -172,8 +172,8 @@ function checkIfWon(ergString, player) {
       dartRest = 0;
       handleStringErgebnise(ergString, "PL1");
       guiWon("PL1", 1);
-      MasterhandlerTwo = false;
-      MasterHandler = false;
+      zugSpieler2 = false;
+      zugSpieler1 = false;
       return true;
     } else if (dartRest - zwischenSumme < 1) {
       zwischenSumme = 0;
@@ -189,8 +189,8 @@ function checkIfWon(ergString, player) {
       dartRestPL2 = 0;
       handleStringErgebnise(ergString, "PL2");
       guiWon("PL2", 2);
-      MasterhandlerTwo = false;
-      MasterHandler = false;
+      zugSpieler2 = false;
+      zugSpieler1 = false;
       return true;
     } else if (dartRestPL2 - zwischenSummePL2 < 1) {
       zwischenSumme = 0;
