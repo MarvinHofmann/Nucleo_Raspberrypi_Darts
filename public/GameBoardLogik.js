@@ -245,6 +245,7 @@ function guiWon(stringSp, player) {
  * zugreigen zu können
  */
 function clearWuerfe(player) {
+  document.getElementById("status" + player).innerText = "Überworfen";
   document.getElementById("ergWurf1" + player).innerText = String("/");
   document.getElementById("ergWurf2" + player).innerText = String("/");
   document.getElementById("ergWurf3" + player).innerText = String("/");

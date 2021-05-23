@@ -17,7 +17,6 @@ app.listen(port, () => {
   console.log(`App listening at http://raspberrypi:${port}`) // Publisher Server auf Port 3443
 });
 
-
 //Globale Variablen
 let incomingNumbPL1 = 0;
 let mulPL1 = 0;
@@ -29,12 +28,10 @@ let mulPL2 = 0;
 let ergebnisPL2 = 0;
 let stringErgebnisPL2;
 
-app.get('/' , function ( request, response){
-    console.log("Eingehende get request");
-    response.sendStatus(200);
-});
-
-//Exit Post request
+/**
+ * Exit Post request für verworfenen Dartpfeil
+ * wird durch Button druck an Nucleo ausgelöst
+ */
 app.post('/exit', function (req, res) {
   console.log("Exit Request")
   console.log(req.body.code);
@@ -42,13 +39,15 @@ app.post('/exit', function (req, res) {
   res.send("Exit erhalten");
 });
 
-app.post('/', function (req, res) {
+/**
+ * Behandelt die eingehende Anfrage des ersten Spielers
+ * hier wird der Wert errechnet, den der Spieler geworfen hat, sowie das Ergebnis als String.
+ * Anschließend werden die daten mittels der broadcast() Funktion an die Clients übergeben
+ */
+app.post('/player1', function (req, res) {
     incomingNumbPL1 = req.body.numberPL1;
     mulPL1 = req.body.mulPL1;
     ergebnisPL1 = mulPL1 * incomingNumbPL1;
-    //Debug
-    console.log("Incoming: NumberPl1 " + incomingNumbPL1 + " MultiplierPL1: " + mulPL1 + 
-    " Ergebnis: " + ergebnisPL1)
     //Ermittle Double/Tripple/Single
     stringErgebnisPL1 = ermittleFeld(incomingNumbPL1, mulPL1);
     console.log(stringErgebnisPL1);
@@ -57,14 +56,16 @@ app.post('/', function (req, res) {
     //Antwort Server
     res.send("Kam an Ergebnis: " + stringErgebnisPL1);
 });
-//Post request Hanldery Player 2
+
+/**
+ * Behandelt die eingehende Anfrage des zweiten Spielers
+ * hier wird der Wert errechnet, den der Spieler geworfen hat, sowie das Ergebnis als String.
+ * Anschließend werden die daten mittels der broadcast() Funktion an die Clients übergeben
+ */
 app.post('/player2', function (req, res) {
   incomingNumbPL2 = req.body.numberPL2;
   mulPL2 = req.body.mulPL2;
   ergebnisPL2 = mulPL2 * incomingNumbPL2;
-  //Debug
-  console.log("Incoming: NumberPl2 " + incomingNumbPL2 + " MultiplierPL2: " + mulPL2 + 
-  " Ergebnis: " + ergebnisPL2)
   //Ermittle Double/Tripple/Single
   stringErgebnisPL2 = ermittleFeld(incomingNumbPL2, mulPL2);
   console.log(stringErgebnisPL2);
@@ -74,7 +75,7 @@ app.post('/player2', function (req, res) {
   res.send("Kam an Ergebnis: " + stringErgebnisPL2);
 });
 
-//Sagt euch wenn ein Client verbunden ist oder wenn er disconnected
+//Macht meldung, wenn ein Client connected oder disconnected
 wss.on("connection", ws => {
     console.log("Client connected!");
     ws.on("close", data => {
@@ -82,7 +83,12 @@ wss.on("connection", ws => {
     })
 });
 
-// diese funktion schickt das übergebene Objekt json an alle verbundenen Clients
+/**
+ * Sendet die Daten an alle Clients als JSON
+ * @param {*} numberErgebnis ist das Ergebnis des Wurfs aus (multiplikator * Feld)
+ * @param {*} stringErgebnis ist der Wurd des Spielers mit Multiplikator als String 
+ * @param {*} player ist der Spieler, entweder 1 oder 2 
+ */
 function broadcast(numberErgebnis, stringErgebnis, player) {
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -91,7 +97,11 @@ function broadcast(numberErgebnis, stringErgebnis, player) {
       }
     });
 }
-
+/**
+ * @param {*} number ist die Geworfene Nummer
+ * @param {*} mul ist der Multiplikator (single = 1, double = 2, tripple = 3)
+ * @returns Kombinierter String aus Geworfener Nummer und Multiplikator um schöne ausgabe zu erzeugen
+ */
 function ermittleFeld(number, mul){
     switch(mul){
         case 1: return String('S' + number);
