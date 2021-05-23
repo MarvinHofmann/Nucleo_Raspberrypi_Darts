@@ -25,9 +25,9 @@ ws.addEventListener("open", () => {
 //Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
 ws.addEventListener("message", function (event) {
   if (MasterHandler) {
-    console.log("MasterHanlder" + MasterHanlder);
-    console.log("MasterHanlder2" + MasterhanlderTwo);
-    MasterhanlderTwo = false;
+    console.log("MasterHanlder" + MasterHandler);
+    console.log("MasterHanlder2" + MasterhandlerTwo);
+    MasterhandlerTwo = false;
     console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
    // console.log(data);
@@ -52,9 +52,9 @@ ws.addEventListener("message", function (event) {
         break;
     }
   } else if (MasterhanlderTwo) {
-    console.log("MasterHanlder" + MasterHanlder);
-    console.log("MasterHanlder2" + MasterhanlderTwo);
-    Masterhanlder = false;
+    console.log("MasterHanlder" + MasterHandler);
+    console.log("MasterHanlder2" + MasterhandlerTwo);
+    Masterhandler = false;
     console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
    // console.log(data);
@@ -75,7 +75,7 @@ ws.addEventListener("message", function (event) {
           console.log("Setze false");
           spielVorbei = true;
           MasterhandlerTwo = false;
-          MasterHanlder = false;
+          MasterHandler = false;
         }
         break;
     }
@@ -105,7 +105,7 @@ function handleZaehlerSechs(data, type, player) {
     document.getElementById("averagePL1").innerText = getAverage(averageZaehler);
     if (spielVorbei === false) {
       MasterHandler = false;
-      MasterhanlderTwo = true;  
+      MasterhandlerTwo = true;  
     }
   }else {
     console.log("Zaheler = 6 PL2");
@@ -130,7 +130,7 @@ function handleZaehlerSechs(data, type, player) {
     getAveragePL2(averageZaehlerPL2);
     if (spielVorbei === false) {
       MasterHandler = true;
-      MasterhanlderTwo = false;  
+      MasterhandlerTwo = false;  
     }
   }
 }
@@ -173,7 +173,7 @@ function checkIfWon(ergString, player) {
       handleStringErgebnise(ergString, "PL1");
       guiWon("PL1", 1);
       MasterhandlerTwo = false;
-      MasterHanlder = false;
+      MasterHandler = false;
       return true;
     } else if (dartRest - zwischenSumme < 1) {
       zwischenSumme = 0;
@@ -190,7 +190,7 @@ function checkIfWon(ergString, player) {
       handleStringErgebnise(ergString, "PL2");
       guiWon("PL2", 2);
       MasterhandlerTwo = false;
-      MasterHanlder = false;
+      MasterHandler = false;
       return true;
     } else if (dartRestPL2 - zwischenSummePL2 < 1) {
       zwischenSumme = 0;
