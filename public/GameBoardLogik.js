@@ -52,7 +52,6 @@ ws.addEventListener("message", function (event) {
     if (zaehlerPL2 === 6) {
       handleZaehlerSechs(data, data.type, 2)
     }
-
     switch (data.type) {
       case "numberErgebnis2":
         zwischenSummePL2 += data.value;
@@ -76,7 +75,7 @@ function handleZaehlerSechs(data, type, player) {
         break;
       case "stringErgebnis1":
         if (!checkIfWon(data.value,1)) {
-          handleStringErgebnise(data.value, "PL2");
+          handleStringErgebnise(data.value, "PL1");
         }
         break;
     }
