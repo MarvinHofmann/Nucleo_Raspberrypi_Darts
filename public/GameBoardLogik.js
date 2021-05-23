@@ -148,7 +148,7 @@ function checkIfWon(ergString, player) {
       zwischenSumme = 0;
       averageZaehler++;
       dartRest = 0;
-      handleStringErgebnise(data.value, "PL1");
+      handleStringErgebnise(ergString, "PL1");
       guiWon("PL1", 1);
       MasterHandlerPL2 = false;
       Masterhanlder = false;
@@ -165,7 +165,7 @@ function checkIfWon(ergString, player) {
       zwischenSummePL2 = 0;
       averageZaehlerPL2++;
       dartRestPL2 = 0;
-      handleStringErgebnise(data.value, "PL2");
+      handleStringErgebnise(ergString, "PL2");
       guiWon("PL2", 2);
       MasterHandlerPL2 = false;
       Masterhanlder = false;
