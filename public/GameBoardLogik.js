@@ -26,6 +26,7 @@ ws.addEventListener("message", function (event) {
     MasterhanlderTwo = false;
     console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
+    console.log(data);
     zaehler++;
     if (zaehler === 6) {
       handleZaehlerSechs(data, data.type, 1);
