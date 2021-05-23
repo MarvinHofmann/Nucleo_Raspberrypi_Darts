@@ -84,8 +84,8 @@ function handleZaehlerSechs(data, type, player) {
     zaehler = 0;
     zwischenSumme = 0;
     averageZaehler++;
-    document.getElementById("restWert").innerText = dartRest;
-    document.getElementById("average").innerText = getAverage(averageZaehler);
+    document.getElementById("restWertPL1").innerText = dartRest;
+    document.getElementById("averagePL1").innerText = getAverage(averageZaehler);
     MasterHandler = false;
     MasterhanlderTwo = true;
   }else {

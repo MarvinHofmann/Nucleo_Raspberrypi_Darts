@@ -52,7 +52,7 @@ app.post('/', function (req, res) {
     //Ermittle Double/Tripple/Single
     stringErgebnisPL1 = ermittleFeld(incomingNumbPL1, mulPL1);
     //verteile Ergebnis
-    broadcast(ergebnisPL1, stringErgebnisPL1 );
+    broadcast(ergebnisPL1, stringErgebnisPL1, "1");
     //Antwort Server
     res.send("Kam an Ergebnis: " + stringErgebnisPL1);
 });
@@ -67,7 +67,7 @@ app.post('/player2', function (req, res) {
   //Ermittle Double/Tripple/Single
   stringergebnisPL1 = ermittleFeld(incomingNumbPL2, mulPL2);
   //verteile Ergebnis
-  broadcastPlayerTwo(ergebnisPL2, stringErgebnisPL2);
+  broadcast(ergebnisPL2, stringErgebnisPL2, "2");
   //Antwort Server
   res.send("Kam an Ergebnis: " + stringErgebnisPL2);
 });
@@ -75,35 +75,19 @@ app.post('/player2', function (req, res) {
 //Sagt euch wenn ein Client verbunden ist oder wenn er disconnected
 wss.on("connection", ws => {
     console.log("Client connected!");
-  
     ws.on("close", data => {
       console.log("Client has disconnceted");
     })
-  
-  })
+});
 
 // diese funktion schickt das übergebene Objekt json an alle verbundenen Clients
-function broadcast(numberErgebnis, stringErgebnis) {
-  
+function broadcast(numberErgebnis, stringErgebnis, player) {
     wss.clients.forEach(function each(client) {
-  
       if (client.readyState === WebSocket.OPEN) {
-        console.log("sende");
-        client.send(JSON.stringify({ type: 'numberErgebnis1', value: numberErgebnis, type:'stringErgebnis1',value: stringErgebnis }));
-       // client.send(JSON.stringify({ type: 'stringErgebnis1', value: stringErgebnis }));
+        client.send(JSON.stringify({ type: 'numberErgebnis' + player, value: numberErgebnis}));
+        client.send(JSON.stringify({ type: 'stringErgebnis' + player, value: stringErgebnis }));
       }
     });
-}
-
-function broadcastPlayerTwo(numberErgebnis, stringErgebnis) {
-  
-  wss.clients.forEach(function each(client) {
-
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ type: 'numberErgebnis2', value: numberErgebnis }));
-      client.send(JSON.stringify({ type: 'stringErgebnis2', value: stringErgebnis }));
-    }
-  });
 }
 
 function ermittleFeld(number, mul){
