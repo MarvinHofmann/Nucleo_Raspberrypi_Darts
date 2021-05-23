@@ -25,7 +25,7 @@ ws.addEventListener("open", () => {
 //Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
 ws.addEventListener("message", function (event) {
   if (MasterHandler) {
-    console.log("MasterHanlder" + Masterhanlder);
+    console.log("MasterHanlder" + MasterHanlder);
     console.log("MasterHanlder2" + MasterhanlderTwo);
     MasterhanlderTwo = false;
     console.log("Spieler 1 spielt");
@@ -46,13 +46,13 @@ ws.addEventListener("message", function (event) {
         }else{
           console.log("Setze false");
           spielVorbei = true;
-          MasterHandlerPL2 = false;
-          Masterhanlder = false;
+          MasterhandlerTwo = false;
+          MasterHanlder = false;
         }
         break;
     }
   } else if (MasterhanlderTwo) {
-    console.log("MasterHanlder" + Masterhanlder);
+    console.log("MasterHanlder" + MasterHanlder);
     console.log("MasterHanlder2" + MasterhanlderTwo);
     Masterhanlder = false;
     console.log("Spieler 2 spielt");
@@ -74,8 +74,8 @@ ws.addEventListener("message", function (event) {
         }else{
           console.log("Setze false");
           spielVorbei = true;
-          MasterHandlerPL2 = false;
-          Masterhanlder = false;
+          MasterhandlerTwo = false;
+          MasterHanlder = false;
         }
         break;
     }
@@ -172,8 +172,8 @@ function checkIfWon(ergString, player) {
       dartRest = 0;
       handleStringErgebnise(ergString, "PL1");
       guiWon("PL1", 1);
-      MasterHandlerPL2 = false;
-      Masterhanlder = false;
+      MasterhandlerTwo = false;
+      MasterHanlder = false;
       return true;
     } else if (dartRest - zwischenSumme < 1) {
       zwischenSumme = 0;
@@ -189,8 +189,8 @@ function checkIfWon(ergString, player) {
       dartRestPL2 = 0;
       handleStringErgebnise(ergString, "PL2");
       guiWon("PL2", 2);
-      MasterHandlerPL2 = false;
-      Masterhanlder = false;
+      MasterhandlerTwo = false;
+      MasterHanlder = false;
       return true;
     } else if (dartRestPL2 - zwischenSummePL2 < 1) {
       zwischenSumme = 0;
