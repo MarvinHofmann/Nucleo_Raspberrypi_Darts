@@ -28,7 +28,7 @@ ws.addEventListener("message", function (event) {
     MasterhanlderTwo = false;
     console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
-    console.log(data);
+   // console.log(data);
     zaehler++;
     if (zaehler === 6) {
       handleZaehlerSechs(data, data.type, 1);
@@ -42,6 +42,7 @@ ws.addEventListener("message", function (event) {
         if (!checkIfWon(data.value,1)) {
           handleStringErgebnise(data.value, "PL1");
         }else{
+          console.log("Setze false");
           spielVorbei = true;
           MasterHandlerPL2 = false;
           Masterhanlder = false;
@@ -52,7 +53,7 @@ ws.addEventListener("message", function (event) {
     Masterhanlder = false;
     console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
-    console.log(data);
+   // console.log(data);
     zaehler++;
 
     if (zaehler === 6) {
@@ -140,9 +141,7 @@ function handleStringErgebnise(data, spieler) {
       break;
     case 4:
       document.getElementById("ergWurf2" + spieler).innerText = String(data);
-
       break;
-
     case 6:
       document.getElementById("ergWurf3" + spieler).innerText = String(data);
       break;
@@ -177,7 +176,7 @@ function checkIfWon(ergString, player) {
       clearWuerfe("PL");
       return false;
     }
-  } else {
+  } else if (player === 2){
     if (split[0] == "D" && dartRestPL2 - zwischenSummePL2 == 0) {
       console.log("GewonnenPL2");
       zwischenSummePL2 = 0;
@@ -204,7 +203,7 @@ function guiWon(stringSp, player) {
       getAverage(averageZaehlerPL2);
     document.getElementById("restWert" + stringSp).innerText = dartRest;
     document.getElementById("status" + stringSp).innerText = "Gewonnen";
-  } else {
+  } else if (player === 2) {
     document.getElementById("average" + stringSp).innerText =
       getAveragePL2(averageZaehlerPL2);
     document.getElementById("restWert" + stringSp).innerText = dartRestPL2;
