@@ -16,7 +16,7 @@ let dartRestPL2 = 501;
 let zaehler = 0;
 let spielVorbei = false;
 let MasterHandler = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
-let MasterhanlderTwo = false;
+let MasterhandlerTwo = false;
 //Eine Funktion die in der Konsole des Browserd die Geglückte Verbindung zum Server ausgibt
 ws.addEventListener("open", () => {
   console.log("Client connected with server!");
@@ -51,7 +51,7 @@ ws.addEventListener("message", function (event) {
         }
         break;
     }
-  } else if (MasterhanlderTwo) {
+  } else if (MasterhandlerTwo) {
     console.log("MasterHanlder" + MasterHandler);
     console.log("MasterHanlder2" + MasterhandlerTwo);
     Masterhandler = false;
