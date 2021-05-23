@@ -1,28 +1,34 @@
 //Eine Verbindung zum Websocket Server Aufbauen
 const ws = new WebSocket("ws://192.168.0.46:8080");
-
-//Globale Variablen der Spiler anlegen und initialisieren
-
+//Globale Variablen der Spieler anlegen und initialisieren
 let averageZaehler = 0;
-
 let zwischenSumme = 0;
 let dartRest = 501;
-
+//Spieler2
 let averageZaehlerPL2 = 0;
 let zwischenSummePL2 = 0;
 let dartRestPL2 = 501;
-
-
+//globale Variablen die nicht vom Spieler abhängig sind
 let zaehler = 0;
 let spielVorbei = false;
 let zugSpieler1 = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
 let zugSpieler2 = false;
+
 //Eine Funktion die in der Konsole des Browserd die Geglückte Verbindung zum Server ausgibt
 ws.addEventListener("open", () => {
   console.log("Client connected with server!");
 });
 
-//Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
+
+/**
+ * Die Event listener Funktion erhält alle Nachrichten des Servers. 
+ * In ihr wird alles Verarbeitet was der Server schickt
+ * die if abfrage zugSpieler1/2 überprüft, ob der Spieler welche die Daten schickt auch an der reihe ist,
+ * so dass immer nur ein Spieler freigeschalten ist. Ist das Spiel beednet ist kein Spieler mehr freigeschalten 
+ * und keine neuen Werte werden akzeptiert.
+ * Die ankommenden JSON werden geparsed und dann ausgewertet, hier wird überprüft ob und welcher Spieler
+ * gewonnen hat und was er geworfen hat die Ergebnise auf die GUI zu übertragen wird hier in Auftrag gegeben.
+ */
 ws.addEventListener("message", function (event) {
   if (zugSpieler1) {
     zugSpieler2 = false;
@@ -71,6 +77,14 @@ ws.addEventListener("message", function (event) {
   }
 });
 
+/**
+ * Die Funktion behandelt den Sonderfall des 3. geworfenen Pfeil (zählerstand = 6, da die Funktion die den 
+ * Zähler erhöht immer 2 mal pro wurf aufgerufen wird). In diesem besonderen Fall 
+ * wechselt der Spieler, der jeweils andere wird gesperrt und der restWert wird berechnet.
+ * @param {*} data daten des JSON type
+ * @param {*} type JSON type
+ * @param {*} player der Spieler (1 oder 2)
+ */
 function handleZaehlerSechs(data, type, player) {
   if (player === 1) {
     switch (type) {
@@ -95,7 +109,7 @@ function handleZaehlerSechs(data, type, player) {
       zugSpieler1 = false;
       zugSpieler2 = true;  
     }
-  }else {
+  }else if(player ===2){
     switch (type) {
       case "numberErgebnis2":
         zwischenSummePL2 += data.value;
@@ -122,25 +136,34 @@ function handleZaehlerSechs(data, type, player) {
   }
 }
 
-//Hier werden die String ergebnisse (z.B D11, T20 oder S15) auf den jeweiligen Platz der Webseite geschrieben
-//Die entscheidung läuft nach globalem Zählerstand, sodass für den 3. Wurf(zähler = 6) das Ergebnis im 3. Kasten dargestellt wird
-function handleStringErgebnise(data, spieler) {
+
+/**
+ * Darstellen der Würfe auf der GUI 
+ * @param {*} ergWurf ist der Wurf (z.B D11 oder T14) als String welcher in die GUI übertragen wird
+ * @param {*} spieler ist der Spieler als String ("PL2") oder ("PL1") um das richtige 
+ * html Element anzusprechen
+ */
+function handleStringErgebnise(ergWurf, spieler) {
   switch (zaehler) {
     case 2:
-      document.getElementById("ergWurf1" + spieler).innerText = String(data);
+      document.getElementById("ergWurf1" + spieler).innerText = String(ergWurf);
       document.getElementById("ergWurf2" + spieler).innerText = String("/");
       document.getElementById("ergWurf3" + spieler).innerText = String("/");
       break;
     case 4:
-      document.getElementById("ergWurf2" + spieler).innerText = String(data);
+      document.getElementById("ergWurf2" + spieler).innerText = String(ergWurf);
       break;
     case 6:
-      document.getElementById("ergWurf3" + spieler).innerText = String(data);
+      document.getElementById("ergWurf3" + spieler).innerText = String(ergWurf);
       break;
   }
 }
 
-
+/**
+ * @param  count ist die Anzahl der vollständigen Spielzüge (3 Würfe, falls verworfen 
+ * zählt das als null wurf) 
+ * @returns durchschnitt der 3 Pfeile eines Spielers auf das ganze Spiel gerechnet
+ */
 function getAverage(count) {
   return (501 - dartRest) / count;
 }
@@ -149,10 +172,19 @@ function getAveragePL2(count) {
   return (501 - dartRestPL2) / count;
 }
 
+/**
+ * Ermittelt ob der Spieler mit Double aus gemacht hat und das Spiel gewonnen oder ob er
+ * überworfen hat. Falls keins von beidem -> Spiel geht normal weiter
+ * Wenn gewonnen werden die Spieler gesperrt keine Weiteren werte werden gewertet.
+ * Wenn überworfen wird der Spielzug beendet und der andere Spieler ist an der reihe.
+ * @param {*} ergString Ist das String Ergebnis eines Wurfs (Bsp. D11 oder T12)
+ * @param {*} player ist der Spieler für den überprüft wird (1 oder 2)
+ * @returns boolean true falls der Spieler gewonnen hat, false falls nicht gewonnen
+ */
 function checkIfWon(ergString, player) {
   split = Array.from(ergString);
   if (player === 1) {
-    if (split[0] == "D" && dartRest - zwischenSumme == 0) {
+    if (split[0] == "D" && dartRest - zwischenSumme == 0) { //Gewonnen
       zwischenSumme = 0;
       averageZaehler++;
       dartRest = 0;
@@ -161,14 +193,14 @@ function checkIfWon(ergString, player) {
       zugSpieler2 = false;
       zugSpieler1 = false;
       return true;
-    } else if (dartRest - zwischenSumme < 1) {
+    } else if (dartRest - zwischenSumme < 1) { //Überworfen
       zwischenSumme = 0;
       zaehler = 0;
       clearWuerfe("PL");
       return false;
     }
   } else if (player === 2){
-    if (split[0] == "D" && dartRestPL2 - zwischenSummePL2 == 0) {
+    if (split[0] == "D" && dartRestPL2 - zwischenSummePL2 == 0) { //Gewonnen
       zwischenSummePL2 = 0;
       averageZaehlerPL2++;
       dartRestPL2 = 0;
@@ -177,7 +209,7 @@ function checkIfWon(ergString, player) {
       zugSpieler2 = false;
       zugSpieler1 = false;
       return true;
-    } else if (dartRestPL2 - zwischenSummePL2 < 1) {
+    } else if (dartRestPL2 - zwischenSummePL2 < 1) { //Überworfen
       zwischenSumme = 0;
       zaehler = 0;
       clearWuerfe("PL");
@@ -187,6 +219,12 @@ function checkIfWon(ergString, player) {
   return false;
 }
 
+/**
+ * Gibt auf der GUI gewonnen aus und setzt die letzten Werte des jeweiligen Spielers
+ * @param {*} stringSp der String name des Spielers ("SP1") oder ("SP2) als zugriff auf das passende 
+ * html Element
+ * @param {*} player der Spieler als nummer 1 oder 2 
+ */
 function guiWon(stringSp, player) {
   if (player === 1) {
     document.getElementById("average" + stringSp).innerText =
@@ -201,6 +239,11 @@ function guiWon(stringSp, player) {
   }
 }
 
+/**
+ * Setzt die einzelnen Würfe des Spielers zurück zu default /
+ * @param {*} player der Spieler als String um auf das richtige html Element 
+ * zugreigen zu können
+ */
 function clearWuerfe(player) {
   document.getElementById("ergWurf1" + player).innerText = String("/");
   document.getElementById("ergWurf2" + player).innerText = String("/");
