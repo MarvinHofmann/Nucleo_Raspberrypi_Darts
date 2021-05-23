@@ -88,8 +88,8 @@ function broadcast(numberErgebnis, stringErgebnis) {
     wss.clients.forEach(function each(client) {
   
       if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify({ type: 'numberErgebnis1', value: numberErgebnis }));
-        client.send(JSON.stringify({ type: 'stringErgebnis1', value: stringErgebnis }));
+        client.send(JSON.stringify({ type: 'numberErgebnis1', value: numberErgebnis, type:'stringErgebnis1',value: stringErgebnis }));
+       // client.send(JSON.stringify({ type: 'stringErgebnis1', value: stringErgebnis }));
       }
     });
 }

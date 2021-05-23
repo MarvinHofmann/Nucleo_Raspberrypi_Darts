@@ -1,4 +1,7 @@
-const ws = new WebSocket('ws://192.168.0.46:8080');
+//Eine Verbindung zum Websocket Server Aufbauen
+const ws = new WebSocket("ws://192.168.0.46:8080");
+
+//Globale Variablen der Spiler anlegen und initialisieren
 
 let averageZaehler = 0;
 let zaehler = 0;
@@ -12,219 +15,190 @@ let dartRestPL2 = 501;
 
 let MasterHandler = true; // Wenn True darf gespielt werden wenn false Spiel vorbei
 let MasterhanlderTwo = false;
-ws.addEventListener('open', () => {
-    console.log("Client connected with server!")
+//Eine Funktion die in der Konsole des Browserd die Geglückte Verbindung zum Server ausgibt
+ws.addEventListener("open", () => {
+  console.log("Client connected with server!");
 });
 
-ws.addEventListener('message', function (event){
-
-  if(MasterHandler){
-  MasterhanlderTwo = false;
-  console.log('Spieler 1 spielt');
-  const data = JSON.parse(event.data);
-  
+//Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
+ws.addEventListener("message", function (event) {
+  if (MasterHandler) {
+    MasterhanlderTwo = false;
+    console.log("Spieler 1 spielt");
+    const data = JSON.parse(event.data);
     zaehler++;
-    
-    if(zaehler === 6){
-        handleZaehlerSechs(data, data.type);
+    if (zaehler === 6) {
+      handleZaehlerSechs(data, data.type, 1);
     }
-
     switch (data.type) {
-      case 'numberErgebnis1':
+      case "numberErgebnis1":
         zwischenSumme += data.value;
         break;
-  
-      case 'stringErgebnis1': 
-        if(!checkIfWon(data.value)){
-          handleStringErgebnise(data.value);
+
+      case "stringErgebnis1":
+        if (!checkIfWon(data.value,1)) {
+          handleStringErgebnise(data.value, "PL1");
         }
         break;
-        
-
-    default:
-        // Unknown websocket message type
-    }     
-  }else if(MasterhanlderTwo){
+    }
+  } else if (MasterhanlderTwo) {
     Masterhanlder = false;
-    console.log('Spieler 2 spielt');
+    console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
-    
+
     zaehlerPL2++;
-    
-    if(zaehlerPL2 === 6){
-        handleZaehlerSechsPL2(data, data.type);
+
+    if (zaehlerPL2 === 6) {
+      handleZaehlerSechs(data, data.type, 2)
     }
 
     switch (data.type) {
-      case 'numberErgebnis2':
+      case "numberErgebnis2":
         zwischenSummePL2 += data.value;
         break;
-  
-      case 'stringErgebnis2': 
-        if(!checkIfWonPL2(data.value)){
-          handleStringErgebnisePL2(data.value);
+
+      case "stringErgebnis2":
+        if (!checkIfWon(data.value,2)) {
+          handleStringErgebnise(data.value, "PL2");
         }
         break;
-        
-
-    default:
-        // Unknown websocket message type
     }
-  }   
-  });
-
-  function handleStringErgebnise(data){
-      switch(zaehler){
-        case 2: document.getElementById("ergWurf1").innerText = String(data);
-                document.getElementById("ergWurf2").innerText = String('/'); //Setzte felder zurück
-                document.getElementById("ergWurf3").innerText = String('/');
-            break;
-        case 4: document.getElementById("ergWurf2").innerText = String(data);
-                
-            break;
-        
-        case 6: document.getElementById("ergWurf3").innerText = String(data);
-            break;
-                     
-      } 
   }
+});
 
-  function handleStringErgebnisePL2(data){
-    switch(zaehlerPL2){
-      case 2: document.getElementById("ergWurf1PL2").innerText = String(data);
-              document.getElementById("ergWurf2PL2").innerText = String('/'); //Setzte felder zurück
-              document.getElementById("ergWurf3PL2").innerText = String('/');
-          break;
-      case 4: document.getElementById("ergWurf2PL2").innerText = String(data);
-              
-          break;
-      
-      case 6: document.getElementById("ergWurf3PL2").innerText = String(data);
-          break;
-                   
-    } 
-}
-
-  function handleZaehlerSechs(data, type){
-    console.log("Zaheler = 6 PL1")
-      
+function handleZaehlerSechs(data, type, player) {
+  if (player === 1) {
+    console.log("Zaheler = 6 PL1");
     switch (type) {
-        case 'numberErgebnis1':
-          zwischenSumme += data.value;
-          break;
-    
-        case 'stringErgebnis1': 
-          if(!checkIfWon(data.value)){
-            handleStringErgebnise(data.value);
-         }
-         break;
+      case "numberErgebnis1":
+        zwischenSumme += data.value;
+        break;
+      case "stringErgebnis1":
+        if (!checkIfWon(data.value,1)) {
+          handleStringErgebnise(data.value, "PL2");
+        }
+        break;
     }
     dartRest -= zwischenSumme;
-    document.getElementById("restWert").innerText = dartRest;
-
     zaehler = 0;
-       
     zwischenSumme = 0;
-
     averageZaehler++;
-
+    document.getElementById("restWert").innerText = dartRest;
     document.getElementById("average").innerText = getAverage(averageZaehler);
-
     MasterHandler = false;
     MasterhanlderTwo = true;
-  }
-
-  function handleZaehlerSechsPL2(data, type){
-    console.log("Zaheler = 6 PL2")
-      
+  }else {
+    console.log("Zaheler = 6 PL2");
     switch (type) {
-        case 'numberErgebnis2':
-          zwischenSummePL2 += data.value;
-          break;
-    
-        case 'stringErgebnis2': 
-          if(!checkIfWonPL2(data.value)){
-            handleStringErgebnisePL2(data.value);
-         }
-         break;
+      case "numberErgebnis2":
+        zwischenSummePL2 += data.value;
+        break;
+      case "stringErgebnis2":
+        if (!checkIfWon(data.value,2)) {
+          handleStringErgebnise(data.value, "PL2");
+        }
+        break;
     }
     dartRestPL2 -= zwischenSummePL2;
-    document.getElementById("restWertPL2").innerText = dartRestPL2;
-
+    
     zaehlerPL2 = 0;
-    //console.log('Zaehler' + zaehler);
     
     zwischenSummePL2 = 0;
-    //console.log('Zwischensumme' + zwischenSumme)
-
+    
     averageZaehlerPL2++;
-
-    document.getElementById("averagePL2").innerText = getAveragePL2(averageZaehlerPL2);
+    document.getElementById("restWertPL2").innerText = dartRestPL2;
+    document.getElementById("averagePL2").innerText =
+    getAveragePL2(averageZaehlerPL2);
     MasterHandler = true;
     MasterhanlderTwo = false;
   }
+}
 
-  function getAverage(count){
-    return ((501 - dartRest) / count)
+//Hier werden die String ergebnisse (z.B D11, T20 oder S15) auf den jeweiligen Platz der Webseite geschrieben
+//Die entscheidung läuft nach globalem Zählerstand, sodass für den 3. Wurf(zähler = 6) das Ergebnis im 3. Kasten dargestellt wird
+function handleStringErgebnise(data, spieler) {
+  switch (zaehler) {
+    case 2:
+      document.getElementById("ergWurf1" + spieler).innerText = String(data);
+      document.getElementById("ergWurf2" + spieler).innerText = String("/");
+      document.getElementById("ergWurf3" + spieler).innerText = String("/");
+      break;
+    case 4:
+      document.getElementById("ergWurf2" + spieler).innerText = String(data);
+
+      break;
+
+    case 6:
+      document.getElementById("ergWurf3" + spieler).innerText = String(data);
+      break;
   }
+}
 
-  function getAveragePL2(count){
-    return ((501 - dartRestPL2) / count)
-  }
 
-  function checkIfWon(uebergebenerString){
-    split = Array.from(uebergebenerString); //Split von String in Char Array zur Überprüfung auf Double 
-    if(split[0] == 'D' && dartRest - zwischenSumme == 0){
-      //Wenn Aktueller Ergebnis 0 und der Pfeil in Doppel Feld ist das Spiel beendet
-      console.log('Gewonnen');
-      zwischenSumme=0;
+function getAverage(count) {
+  return (501 - dartRest) / count;
+}
+
+function getAveragePL2(count) {
+  return (501 - dartRestPL2) / count;
+}
+
+function checkIfWon(ergString, player) {
+  split = Array.from(ergString);
+  if (player === 1) {
+    if (split[0] == "D" && dartRest - zwischenSumme == 0) {
+      console.log("GewonnenPL1");
+      zwischenSumme = 0;
       averageZaehler++;
-      handleStringErgebnise(uebergebenerString);
-      document.getElementById("average").innerText = getAverage(averageZaehler);
-      dartRest=0;
-      document.getElementById("restWert").innerText = dartRest;
-      document.getElementById("status").innerHTML = 'Gewonnen';
-      MasterHandler = false;
-      MasterhanlderTwo = false;
-      return true;
-    }else if(dartRest - zwischenSumme <=0 || dartRest -zwischenSumme == 1){
-      //Wenn das Ergebnis kleiner null oder 1 ist dann ist nicht Gewonnen sondern überworfen
-      zwischenSumme = 0;
-      document.getElementById("ergWurf1").innerText = String('/');
-      document.getElementById("ergWurf2").innerText = String('/'); //Setzte felder zurück
-      document.getElementById("ergWurf3").innerText = String('/');
-      zaehler=0;
-      console.log('nicht gewonnen und Wert kleiner 0');
-      document.getElementById("status").innerHTML = 'Überworfen';
-      return false;
-    }
-  }
-
-  function checkIfWonPL2(uebergebenerString){
-    split = Array.from(uebergebenerString); //Split von String in Char Array zur Überprüfung auf Double 
-    if(split[0] == 'D' && dartRestPL2 - zwischenSummePL2 == 0){
-      //Wenn Aktueller Ergebnis 0 und der Pfeil in Doppel Feld ist das Spiel beendet
-      console.log('GewonnenPL2');
-      zwischenSummePL2=0;
-      averageZaehlerPL2++;
-      handleStringErgebnisePL2(uebergebenerString);
-      document.getElementById("averagePL2").innerText = getAveragePL2(averageZaehlerPL2);
-      dartRest=0;
-      document.getElementById("restWertPL2").innerText = dartRest;
-      document.getElementById("statusPL2").innerHTML = 'Gewonnen';
+      dartRest = 0;
+      handleStringErgebnise(data.value, "PL1");
+      guiWon("PL1", 1);
       MasterHandlerPL2 = false;
-      Masterhanlder =false;
+      Masterhanlder = false;
       return true;
-    }else if(dartRest - zwischenSumme <=0 || dartRest -zwischenSumme == 1){
-      //Wenn das Ergebnis kleiner null oder 1 ist dann ist nicht Gewonnen sondern überworfen
+    } else if (dartRest - zwischenSumme < 1) {
       zwischenSumme = 0;
-      document.getElementById("ergWurf1PL2").innerText = String('/');
-      document.getElementById("ergWurf2PL2").innerText = String('/'); //Setzte felder zurück
-      document.getElementById("ergWurf3PL2").innerText = String('/');
-      zaehler=0;
-      console.log('nicht gewonnen und Wert kleiner 0 PL2');
-      document.getElementById("statusPL2").innerHTML = 'Überworfen';
+      zaehler = 0;
+      clearWuerfe("PL");
+      return false;
+    }
+  } else {
+    if (split[0] == "D" && dartRestPL2 - zwischenSummePL2 == 0) {
+      console.log("GewonnenPL2");
+      zwischenSummePL2 = 0;
+      averageZaehlerPL2++;
+      dartRestPL2 = 0;
+      handleStringErgebnise(data.value, "PL2");
+      guiWon("PL2", 2);
+      MasterHandlerPL2 = false;
+      Masterhanlder = false;
+      return true;
+    } else if (dartRestPL2 - zwischenSummePL2 < 1) {
+      zwischenSumme = 0;
+      zaehler = 0;
+      clearWuerfe("PL");
       return false;
     }
   }
-  
+  return false;
+}
+
+function guiWon(stringSp, player) {
+  if (player === 1) {
+    document.getElementById("average" + stringSp).innerText =
+      getAverage(averageZaehlerPL2);
+    document.getElementById("restWert" + stringSp).innerText = dartRest;
+    document.getElementById("status" + stringSp).innerText = "Gewonnen";
+  } else {
+    document.getElementById("average" + stringSp).innerText =
+      getAveragePL2(averageZaehlerPL2);
+    document.getElementById("restWert" + stringSp).innerText = dartRestPL2;
+    document.getElementById("status" + stringSp).innerText = "Gewonnen";
+  }
+}
+
+function clearWuerfe(player) {
+  document.getElementById("ergWurf1" + player).innerText = String("/");
+  document.getElementById("ergWurf2" + player).innerText = String("/");
+  document.getElementById("ergWurf3" + player).innerText = String("/");
+}
