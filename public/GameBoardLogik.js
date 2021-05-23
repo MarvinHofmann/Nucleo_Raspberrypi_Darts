@@ -25,12 +25,8 @@ ws.addEventListener("open", () => {
 //Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
 ws.addEventListener("message", function (event) {
   if (zugSpieler1) {
-    console.log("MasterHanlder" + zugSpieler1);
-    console.log("MasterHanlder2" + zugSpieler2);
     zugSpieler2 = false;
-    console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
-   // console.log(data);
     zaehler++;
     if (zaehler === 6) {
       handleZaehlerSechs(data, data.type, 1);
@@ -44,7 +40,6 @@ ws.addEventListener("message", function (event) {
         if (!checkIfWon(data.value,1)) {
           handleStringErgebnise(data.value, "PL1");
         }else{
-          console.log("Setze false");
           spielVorbei = true;
           zugSpieler2 = false;
           MasterHanlder = false;
@@ -52,14 +47,9 @@ ws.addEventListener("message", function (event) {
         break;
     }
   } else if (zugSpieler2) {
-    console.log("MasterHanlder" + zugSpieler1);
-    console.log("MasterHanlder2" + zugSpieler2);
     zugSpieler1 = false;
-    console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
-   // console.log(data);
     zaehler++;
-
     if (zaehler === 6) {
       handleZaehlerSechs(data, data.type, 2)
     }
@@ -72,7 +62,6 @@ ws.addEventListener("message", function (event) {
         if (!checkIfWon(data.value,2)) {
           handleStringErgebnise(data.value, "PL2");
         }else{
-          console.log("Setze false");
           spielVorbei = true;
           zugSpieler2 = false;
           zugSpieler1 = false;
@@ -84,7 +73,6 @@ ws.addEventListener("message", function (event) {
 
 function handleZaehlerSechs(data, type, player) {
   if (player === 1) {
-    console.log("Zaheler = 6 PL1");
     switch (type) {
       case "numberErgebnis1":
         zwischenSumme += data.value;
@@ -108,7 +96,6 @@ function handleZaehlerSechs(data, type, player) {
       zugSpieler2 = true;  
     }
   }else {
-    console.log("Zaheler = 6 PL2");
     switch (type) {
       case "numberErgebnis2":
         zwischenSummePL2 += data.value;
@@ -166,7 +153,6 @@ function checkIfWon(ergString, player) {
   split = Array.from(ergString);
   if (player === 1) {
     if (split[0] == "D" && dartRest - zwischenSumme == 0) {
-      console.log("GewonnenPL1");
       zwischenSumme = 0;
       averageZaehler++;
       dartRest = 0;
@@ -183,7 +169,6 @@ function checkIfWon(ergString, player) {
     }
   } else if (player === 2){
     if (split[0] == "D" && dartRestPL2 - zwischenSummePL2 == 0) {
-      console.log("GewonnenPL2");
       zwischenSummePL2 = 0;
       averageZaehlerPL2++;
       dartRestPL2 = 0;
