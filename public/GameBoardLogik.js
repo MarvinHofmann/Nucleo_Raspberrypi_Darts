@@ -9,7 +9,7 @@ let zwischenSumme = 0;
 let dartRest = 501;
 
 let averageZaehlerPL2 = 0;
-let zaehlerPL2 = 0;
+//let zaehlerPL2 = 0;
 let zwischenSummePL2 = 0;
 let dartRestPL2 = 501;
 
@@ -47,9 +47,9 @@ ws.addEventListener("message", function (event) {
     console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
     console.log(data);
-    zaehlerPL2++;
+    zaehler++;
 
-    if (zaehlerPL2 === 6) {
+    if (zaehler === 6) {
       handleZaehlerSechs(data, data.type, 2)
     }
     switch (data.type) {
@@ -100,11 +100,8 @@ function handleZaehlerSechs(data, type, player) {
         break;
     }
     dartRestPL2 -= zwischenSummePL2;
-    
-    zaehlerPL2 = 0;
-    
+    zaehler = 0;
     zwischenSummePL2 = 0;
-    
     averageZaehlerPL2++;
     document.getElementById("restWertPL2").innerText = dartRestPL2;
     document.getElementById("averagePL2").innerText =
