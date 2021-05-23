@@ -85,8 +85,10 @@ function handleZaehlerSechs(data, type, player) {
     averageZaehler++;
     document.getElementById("restWertPL1").innerText = dartRest;
     document.getElementById("averagePL1").innerText = getAverage(averageZaehler);
-    MasterHandler = false;
-    MasterhanlderTwo = true;
+    if (!checkIfWon(data.value,1)) {
+      MasterHandler = false;
+      MasterhanlderTwo = true;  
+    }
   }else {
     console.log("Zaheler = 6 PL2");
     switch (type) {
@@ -106,8 +108,10 @@ function handleZaehlerSechs(data, type, player) {
     document.getElementById("restWertPL2").innerText = dartRestPL2;
     document.getElementById("averagePL2").innerText =
     getAveragePL2(averageZaehlerPL2);
-    MasterHandler = true;
-    MasterhanlderTwo = false;
+    if (!checkIfWon(data.value,2)) {
+      MasterHandler = true;
+      MasterhanlderTwo = false;  
+    }
   }
 }
 
