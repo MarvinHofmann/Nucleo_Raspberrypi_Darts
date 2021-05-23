@@ -51,7 +51,7 @@ app.post('/', function (req, res) {
     " Ergebnis: " + ergebnisPL1)
     //Ermittle Double/Tripple/Single
     stringErgebnisPL1 = ermittleFeld(incomingNumbPL1, mulPL1);
-    console.log(stringErgebnisPL2);
+    console.log(stringErgebnisPL1);
     //verteile Ergebnis
     broadcast(ergebnisPL1, stringErgebnisPL1, "1");
     //Antwort Server
@@ -67,7 +67,7 @@ app.post('/player2', function (req, res) {
   " Ergebnis: " + ergebnisPL2)
   //Ermittle Double/Tripple/Single
   stringergebnisPL2 = ermittleFeld(incomingNumbPL2, mulPL2);
-  console.log(stringErgebnisPL2);
+  console.log(stringergebnisPL2);
   //verteile Ergebnis
   broadcast(ergebnisPL2, stringErgebnisPL2, "2");
   //Antwort Server
