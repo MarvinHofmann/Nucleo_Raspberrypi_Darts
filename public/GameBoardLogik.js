@@ -25,6 +25,8 @@ ws.addEventListener("open", () => {
 //Die Event listener Funktion erhält alle Nachrichten des Servers. In ihr wird alles Verarbeitet was der Server schickt
 ws.addEventListener("message", function (event) {
   if (MasterHandler) {
+    console.log("MasterHanlder" + Masterhanlder);
+    console.log("MasterHanlder2" + MasterhanlderTwo);
     MasterhanlderTwo = false;
     console.log("Spieler 1 spielt");
     const data = JSON.parse(event.data);
@@ -50,6 +52,8 @@ ws.addEventListener("message", function (event) {
         break;
     }
   } else if (MasterhanlderTwo) {
+    console.log("MasterHanlder" + Masterhanlder);
+    console.log("MasterHanlder2" + MasterhanlderTwo);
     Masterhanlder = false;
     console.log("Spieler 2 spielt");
     const data = JSON.parse(event.data);
@@ -68,6 +72,7 @@ ws.addEventListener("message", function (event) {
         if (!checkIfWon(data.value,2)) {
           handleStringErgebnise(data.value, "PL2");
         }else{
+          console.log("Setze false");
           spielVorbei = true;
           MasterHandlerPL2 = false;
           Masterhanlder = false;
