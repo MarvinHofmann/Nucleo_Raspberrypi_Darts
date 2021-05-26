@@ -50,6 +50,9 @@ ws.addEventListener("message", function (event) {
           MasterHanlder = false;
         }
         break;
+      default:
+          zaehler--;
+          break;
     }
   } else if (zugSpieler2) {
     zugSpieler1 = false;
@@ -71,6 +74,9 @@ ws.addEventListener("message", function (event) {
           zugSpieler2 = false;
           zugSpieler1 = false;
         }
+        break;
+      default:
+        zaehler--;
         break;
     }
   }
