@@ -170,11 +170,11 @@ function handleStringErgebnise(ergWurf, spieler) {
  * @returns durchschnitt der 3 Pfeile eines Spielers auf das ganze Spiel gerechnet
  */
 function getAverage(count) {
-  return (501 - dartRest) / count;
+  return ((501 - dartRest) / count).toFixed(2);
 }
 
 function getAveragePL2(count) {
-  return (501 - dartRestPL2) / count;
+  return ((501 - dartRestPL2) / count).toFixed(2);
 }
 
 /**
