@@ -50,7 +50,8 @@ ws.addEventListener("message", function (event) {
           MasterHanlder = false;
         }
         break;
-      default:
+       //Wenn ein Wurf übermittelt wird, es aber er nicht vom richtigen Spieler kommt wird er ignoriert 
+      default: 
           zaehler--;
           break;
     }
