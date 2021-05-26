@@ -33,9 +33,12 @@ let stringErgebnisPL2;
  * wird durch Button druck an Nucleo ausgelöst
  */
 app.post('/exit', function (req, res) {
-  console.log("Exit Request")
-  console.log(req.body.code);
-  broadcast(req.body.code,"-");
+  broadcast(0,"-","1");
+  res.send("Exit erhalten");
+});
+
+app.post('/exitPL2', function (req, res) {  
+  broadcast(0,"-","2");
   res.send("Exit erhalten");
 });
 

@@ -19,7 +19,6 @@ ws.addEventListener("open", () => {
   console.log("Client connected with server!");
 });
 
-
 /**
  * Die Event listener Funktion erhält alle Nachrichten des Servers. 
  * In ihr wird alles Verarbeitet was der Server schickt
@@ -135,7 +134,6 @@ function handleZaehlerSechs(data, type, player) {
     }
   }
 }
-
 
 /**
  * Darstellen der Würfe auf der GUI 
