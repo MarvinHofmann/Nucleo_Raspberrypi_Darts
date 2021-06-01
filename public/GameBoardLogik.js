@@ -43,7 +43,7 @@ ws.addEventListener("message", function (event) {
 
       case "stringErgebnis1":
         if (!checkIfWon(data.value,1)) {
-          handleStringErgebnise(data.value, "PL1");
+          handleStringErgebnisse(data.value, "PL1");
         }else{
           spielVorbei = true;
           zugSpieler2 = false;
@@ -69,7 +69,7 @@ ws.addEventListener("message", function (event) {
 
       case "stringErgebnis2":
         if (!checkIfWon(data.value,2)) {
-          handleStringErgebnise(data.value, "PL2");
+          handleStringErgebnisse(data.value, "PL2");
         }else{
           spielVorbei = true;
           zugSpieler2 = false;
@@ -99,7 +99,7 @@ function handleZaehlerSechs(data, type, player) {
         break;
       case "stringErgebnis1":
         if (!checkIfWon(data.value,1)) {
-          handleStringErgebnise(data.value, "PL1");
+          handleStringErgebnisse(data.value, "PL1");
         }else{
           spielVorbei = true;
         }
@@ -122,7 +122,7 @@ function handleZaehlerSechs(data, type, player) {
         break;
       case "stringErgebnis2":
         if (!checkIfWon(data.value,2)) {
-          handleStringErgebnise(data.value, "PL2");
+          handleStringErgebnisse(data.value, "PL2");
         }else{
           spielVorbei = true;
         }
@@ -148,18 +148,18 @@ function handleZaehlerSechs(data, type, player) {
  * @param {*} spieler ist der Spieler als String ("PL2") oder ("PL1") um das richtige 
  * html Element anzusprechen
  */
-function handleStringErgebnise(ergWurf, spieler) {
+function handleStringErgebnisse(ergWurf, player) {
   switch (zaehler) {
     case 2:
-      document.getElementById("ergWurf1" + spieler).innerText = String(ergWurf);
-      document.getElementById("ergWurf2" + spieler).innerText = String("/");
-      document.getElementById("ergWurf3" + spieler).innerText = String("/");
+      document.getElementById("ergWurf1" + player).innerText = String(ergWurf);
+      document.getElementById("ergWurf2" + player).innerText = String("/");
+      document.getElementById("ergWurf3" + player).innerText = String("/");
       break;
     case 4:
-      document.getElementById("ergWurf2" + spieler).innerText = String(ergWurf);
+      document.getElementById("ergWurf2" + player).innerText = String(ergWurf);
       break;
     case 6:
-      document.getElementById("ergWurf3" + spieler).innerText = String(ergWurf);
+      document.getElementById("ergWurf3" + player).innerText = String(ergWurf);
       break;
   }
 }
@@ -193,7 +193,7 @@ function checkIfWon(ergString, player) {
       zwischenSumme = 0;
       averageZaehler++;
       dartRest = 0;
-      handleStringErgebnise(ergString, "PL1");
+      handleStringErgebnisse(ergString, "PL1");
       guiWon("PL1", 1);
       zugSpieler2 = false;
       zugSpieler1 = false;
@@ -209,7 +209,7 @@ function checkIfWon(ergString, player) {
       zwischenSummePL2 = 0;
       averageZaehlerPL2++;
       dartRestPL2 = 0;
-      handleStringErgebnise(ergString, "PL2");
+      handleStringErgebnisse(ergString, "PL2");
       guiWon("PL2", 2);
       zugSpieler2 = false;
       zugSpieler1 = false;
