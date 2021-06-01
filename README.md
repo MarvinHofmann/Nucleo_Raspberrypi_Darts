@@ -5,3 +5,5 @@ elektrische Dartscheibe ausgelesen und der geworfene Wert per HTTP Request
 an einen Node.js server geschickt und ausgewertet.
 
 Es können immer 2 Personen gegeneinander Spielen.
+
+Marvin Hofmann und Emely Mayer-Walcher
