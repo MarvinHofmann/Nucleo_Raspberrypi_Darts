@@ -6,6 +6,6 @@ an einen Node.js Server geschickt und dort auf einer Website dargestellt.
 
 Es können immer 2 Personen gegeneinander spielen.
 
-Um die Funktion zu sehen kann die Datei Vorführungsvideo.MOV heruntergeladen werden.
+Um die Funktion zu sehen kann die Datei ```Vorführungsvideo.MOV``` heruntergeladen werden.
 
 Marvin Hofmann und Emely Mayer-Walcher
